@@ -36,5 +36,14 @@ public class TopIPTest {
         assertThat(returnedMap.lastKey(), is("255.240.230.8"));
     }
 
+    @Test
+    public void shouldReturnIPInDescendingOrder_ForLargeFiles() throws Exception {
+        TopIP topIP = new TopIP();
+
+        TreeMap<String, Integer> returnedMap = topIP.findTopIP(new File(this.getClass().getResource("testFile2").getFile()));
+
+        assertThat(returnedMap.firstKey(), is("255.240.230.3"));
+        assertThat(returnedMap.lastKey(), is("255.220.230.3"));
+    }
 
 }
