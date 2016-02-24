@@ -1,9 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by ali on 2/24/16.
@@ -19,7 +17,7 @@ public class TopIP {
         if (args.length == 2) {
             File largeFile = new File(args[0]);
             TopIP topIP = new TopIP();
-            HashMap<String, Integer> topIPMap = topIP.findTopIP(largeFile);
+            TreeMap<String, Integer> topIPMap = topIP.findTopIP(largeFile);
             for (String IP : topIPMap.keySet()) {
                 System.out.println(IP);
             }
@@ -28,7 +26,7 @@ public class TopIP {
         }
     }
 
-    public HashMap<String, Integer> findTopIP(File largeFile) {
+    public TreeMap<String, Integer> findTopIP(File largeFile) {
         try {
             Scanner scanner = new Scanner(new FileReader(largeFile));
             while (scanner.hasNextLine()) {
@@ -41,13 +39,30 @@ public class TopIP {
                 }
             }
             scanner.close();
-            System.out.println(Arrays.asList(hashMap));
-            return hashMap;
+            MyComparator myComparator = new MyComparator(getHashMap());
+            TreeMap sortedMap = new TreeMap(myComparator);
+            sortedMap.putAll(hashMap);
+            return sortedMap;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
 
     }
+}
 
+class MyComparator implements Comparator<Object> {
+    private HashMap<String, Integer> hashMap;
+
+    public MyComparator(HashMap<String, Integer> hashMap) {
+        this.hashMap = hashMap;
+    }
+
+    @Override
+    public int compare(Object o1, Object o2) {
+        if (hashMap.get(o1) < hashMap.get(o2)) {
+            return 1;
+        }
+        return -1;
+    }
 }
