@@ -1,3 +1,20 @@
+# Execution Step
+
+## From CommandLine:
+
+// cd into src directory<br \>
+Compile:<br \>
+$ javac TopIP.java<br \>
+Run with the parameters <i>java TopIP \<filename\> \<number of top IPs to view\></i>:<br \>
+$ java TopIP ../testResources/testFile1 5<br \>
+255.240.230.5<br \>
+255.240.230.3<br \>
+250.250.30.4<br \>
+255.240.230.1<br \>
+255.240.230.8<br \>
+
+Or, you can run from IDE by setting up the parameters in edit options.
+
 # Design Considerations
 
 In the current implementation `java.util.Scanner` is used to handle large files; files larger than the available memory!
