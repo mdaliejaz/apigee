@@ -46,4 +46,21 @@ public class TopIPTest {
         assertThat(returnedMap.lastKey(), is("255.220.230.3"));
     }
 
+    @Test
+    public void shouldValidateIPBeforeAddingToMap() throws Exception {
+        TopIP topIP = new TopIP();
+
+        assertThat(topIP.validateIP("a.b.c.d"), is(false));
+        assertThat(topIP.validateIP("0.0.0.0"), is(true));
+    }
+
+    @Test
+    public void shouldSkipLineAndContinueIfCannotParseIPInCurrentLine() throws Exception {
+        TopIP topIP = new TopIP();
+
+        TreeMap<String, Integer> returnedMap = topIP.findTopIP(new File(this.getClass().getResource("testFile3").getFile()));
+
+        assertThat(returnedMap.firstKey(), is("255.240.230.3"));
+        assertThat(returnedMap.lastKey(), is("250.250.30.4"));
+    }
 }

@@ -2,6 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+import java.util.concurrent.Exchanger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ali on 2/24/16.
@@ -16,10 +19,23 @@ public class TopIP {
     public static void main(String[] args) {
         if (args.length == 2) {
             File largeFile = new File(args[0]);
+            int topN = 5;
+            try {
+                topN = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("Number Format Exception occurred. See Stacktrace below:");
+                e.printStackTrace();
+                System.out.println("Choosing to print top 5 and going ahead with the execution.");
+            }
             TopIP topIP = new TopIP();
             TreeMap<String, Integer> topIPMap = topIP.findTopIP(largeFile);
+            int i = 1;
             for (String IP : topIPMap.keySet()) {
                 System.out.println(IP);
+                if (i == topN) {
+                    break;
+                }
+                i++;
             }
         } else {
             System.out.println("You must enter the filename to parse and the number of top IPs expected");
@@ -31,11 +47,22 @@ public class TopIP {
             Scanner scanner = new Scanner(new FileReader(largeFile));
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String ip = line.trim().split("\t+")[1];
-                if (hashMap.containsKey(ip)) {
-                    this.hashMap.put(ip, this.hashMap.get(ip) + 1);
+                String[] lineArray = line.trim().split("\t+");
+                String ip;
+                if (lineArray.length < 2) {
+                    ip = "";
                 } else {
-                    this.hashMap.put(ip, 1);
+                    ip = lineArray[1];
+                }
+                if (validateIP(ip)) {
+                    if (hashMap.containsKey(ip)) {
+                        this.hashMap.put(ip, this.hashMap.get(ip) + 1);
+                    } else {
+                        this.hashMap.put(ip, 1);
+                    }
+                } else {
+                    System.out.println(String.format("Could not parse IP in this line: '%s'. " +
+                            "Skipping line and going ahead.", line));
                 }
             }
             scanner.close();
@@ -48,6 +75,16 @@ public class TopIP {
         }
         return null;
 
+    }
+
+    public boolean validateIP(String ip) {
+        String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile(IPADDRESS_PATTERN);
+        matcher = pattern.matcher(ip);
+        return matcher.matches();
     }
 }
 
