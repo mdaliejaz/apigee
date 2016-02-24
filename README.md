@@ -1,3 +1,26 @@
+# Update
+
+Since there is a probability that the HashMap doesn't fit in the memory, I've changed the implementation to use MySQL database.<br \>
+The file is read line by line and thus does not need a lot of memory. Each time a line is read, it's processed and then added to the database. If the IP already exists in the database, it's count is incremented by 1. If not, the new IP is inserted with a count of 1.
+
+There are checks done to accomodate invalid IP. In case the IP is invalid, that line in the weblog is skipped and the user is notified of the skipped line. The processing continues from the next line onwards. I decided to continue the processing, as a few wrong (junk) lines would anyways not effect much on the overall top 'n' IPs count. This behaviour can be easily changed if required. A sample output for top 5 IP addresses for testFile3 (having junk lines) is shown below:
+```
+Could not parse IP in this line: '5:33	fake-ip	hi	400'. Skipping line and going ahead.
+Could not parse IP in this line: '5:33	a.a.a.a	bye	501'. Skipping line and going ahead.
+Could not parse IP in this line: ''. Skipping line and going ahead.
+Could not parse IP in this line: ''. Skipping line and going ahead.
+Could not parse IP in this line: ''. Skipping line and going ahead.
+Could not parse IP in this line: 'swijw'. Skipping line and going ahead.
+Could not parse IP in this line: ''. Skipping line and going ahead.
+255.240.230.3
+255.240.230.1
+255.240.230.5
+250.250.30.4
+255.240.230.8
+```
+
+======
+
 # Execution Step
 
 // cd into src directory<br \>
