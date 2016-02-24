@@ -19,13 +19,11 @@ public class TopIP {
             }
             TopIP topIP = new TopIP();
             SQLHelper sqlHelper = new SQLHelper();
-            sqlHelper.setConnection();
             topIP.findTopIP(largeFile, sqlHelper);
             ArrayList<String> topIPObtained = sqlHelper.query(topN);
             for (String ip : topIPObtained) {
                 System.out.println(ip);
             }
-            sqlHelper.closeConnection();
         } else {
             System.out.println("You must enter the filename to parse and the number of top IPs expected");
         }
@@ -34,6 +32,7 @@ public class TopIP {
     public void findTopIP(File largeFile, SQLHelper sqlHelper) {
         try {
             Scanner scanner = new Scanner(new FileReader(largeFile));
+            sqlHelper.deleteTable();
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] lineArray = line.trim().split("\t+");
