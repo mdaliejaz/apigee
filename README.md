@@ -1,7 +1,5 @@
 # Execution Step
 
-## From CommandLine:
-
 // cd into src directory<br \>
 Compile:<br \>
 $ javac TopIP.java<br \>
