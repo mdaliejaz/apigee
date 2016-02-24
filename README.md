@@ -1,6 +1,3 @@
-# apigee
-Find top users (IP addresses) from a large file
-
 # Design Considerations
 
 In the current implementation `java.util.Scanner` is used to handle large files; files larger than the available memory!
@@ -75,3 +72,6 @@ We could have read the file in a database and avoided the RAM usage, making the 
 We could have made the process faster if more details on requirements can be procured:
 - If it's always the top 5 results, we would not need to sort the result obtained and make one <i>O(n)</i> traversal to find them. This might be however, a bad idea in case we want to find top 100 among a million entries. We are sorting using TreeMap with our own Comparator, thus making each add and lookup operation succeed in <i>O(log n)</i> time.
 - We could have spawned multiple threads based on the available memory. These multiple threads could have generated the map in a faster way by working on different parts of the file.
+
+# References
+http://www.baeldung.com/java-read-lines-large-file
