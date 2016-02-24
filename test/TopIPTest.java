@@ -7,9 +7,6 @@ import java.util.TreeMap;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by ali on 2/24/16.
- */
 public class TopIPTest {
     @Test
     public void shouldPopulateTheMap() throws Exception {

@@ -1,14 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.*;
-import java.util.concurrent.Exchanger;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by ali on 2/24/16.
- */
 public class TopIP {
     private HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
 
