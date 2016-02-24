@@ -72,6 +72,7 @@ We could have read the file in a database and avoided the RAM usage, making the 
 We could have made the process faster if more details on requirements can be procured:
 - If it's always the top 5 results, we would not need to sort the result obtained and make one <i>O(n)</i> traversal to find them. This might be however, a bad idea in case we want to find top 100 among a million entries. We are sorting using TreeMap with our own Comparator, thus making each add and lookup operation succeed in <i>O(log n)</i> time.
 - We could have spawned multiple threads based on the available memory. These multiple threads could have generated the map in a faster way by working on different parts of the file.
+- We could use Patricia tree (a trie) to store the IP addresses, that is if space constraint doesn't even allow approximately 4.3 billion of fixed public IPv4 addresses to be stored in the HashMap.
 
 # References
 http://www.baeldung.com/java-read-lines-large-file
